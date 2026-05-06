@@ -9,6 +9,12 @@ import {
   FileSignature,
   ShieldAlert,
   Stethoscope,
+  Home,
+  Camera,
+  HeartPulse,
+  Bell,
+  Utensils,
+  BookOpen,
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
