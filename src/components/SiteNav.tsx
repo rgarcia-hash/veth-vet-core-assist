@@ -13,6 +13,7 @@ export function SiteNav() {
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
           <a href="/#core" className="transition-colors hover:text-navy">Núcleo</a>
           <a href="/#sentinel" className="transition-colors hover:text-navy">Sentinel</a>
+          <a href="/#hogar" className="transition-colors hover:text-navy">Hogar</a>
           <a href="/#flow" className="transition-colors hover:text-navy">Flujo</a>
           <Link to="/disclaimers" className="transition-colors hover:text-navy">Disclaimers</Link>
         </nav>
