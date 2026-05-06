@@ -274,7 +274,22 @@ function Index() {
 
             <div className="relative">
               <div className="absolute -inset-6 rounded-3xl bg-gradient-to-br from-orange/15 via-transparent to-navy/10 blur-2xl" />
-              <div className="relative rounded-2xl border border-border bg-card p-7 shadow-float">
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-float">
+                <div className="relative">
+                  <img
+                    src={scannerFoodImg}
+                    alt="Smartphone escaneando un bulto de alimento para mascota con SafeChoice AI"
+                    width={1280}
+                    height={960}
+                    loading="lazy"
+                    className="aspect-[16/9] w-full object-cover"
+                  />
+                  <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-navy/85 px-3 py-1 text-xs font-semibold text-navy-foreground backdrop-blur">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-orange" />
+                    Escaneando empaque…
+                  </span>
+                </div>
+                <div className="p-7">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SafeChoice AI · Análisis molecular</span>
                   <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">APTO 87/100</span>
