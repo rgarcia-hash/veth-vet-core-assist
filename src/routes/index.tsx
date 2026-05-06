@@ -19,6 +19,9 @@ import {
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { DiagnosisCard } from "@/components/DiagnosisCard";
+import clinicProImg from "@/assets/clinic-pro.jpg";
+import homeFamilyImg from "@/assets/home-family.jpg";
+import scannerFoodImg from "@/assets/scanner-food.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -105,17 +108,30 @@ function Index() {
       {/* CORE */}
       <section id="core" className="border-t border-border py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-wider text-orange">
-              El Núcleo · VET-CORE-1
-            </p>
-            <h2 className="mt-3 text-4xl font-semibold tracking-tight text-navy md:text-5xl">
-              No es un chat genérico. Es un motor especializado.
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Una arquitectura entrenada exclusivamente sobre literatura
-              veterinaria revisada, guías internacionales y casuística clínica.
-            </p>
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-wider text-orange">
+                El Núcleo · VET-CORE-1
+              </p>
+              <h2 className="mt-3 text-4xl font-semibold tracking-tight text-navy md:text-5xl">
+                No es un chat genérico. Es un motor especializado.
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Una arquitectura entrenada exclusivamente sobre literatura
+                veterinaria revisada, guías internacionales y casuística clínica.
+              </p>
+            </div>
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-navy/10 via-transparent to-orange/15 blur-2xl" />
+              <img
+                src={clinicProImg}
+                alt="Veterinaria profesional examinando a un paciente canino en consultorio"
+                width={1280}
+                height={960}
+                loading="lazy"
+                className="relative aspect-[4/3] w-full rounded-2xl object-cover shadow-float"
+              />
+            </div>
           </div>
 
           <div className="mt-14 grid gap-6 md:grid-cols-3">
@@ -217,6 +233,16 @@ function Index() {
       {/* HOGAR */}
       <section id="hogar" className="border-t border-border py-24">
         <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-14 overflow-hidden rounded-3xl border border-border shadow-float">
+            <img
+              src={homeFamilyImg}
+              alt="Familia disfrutando en casa con su perro y gato"
+              width={1280}
+              height={720}
+              loading="lazy"
+              className="aspect-[16/7] w-full object-cover"
+            />
+          </div>
           <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-orange">
@@ -248,7 +274,22 @@ function Index() {
 
             <div className="relative">
               <div className="absolute -inset-6 rounded-3xl bg-gradient-to-br from-orange/15 via-transparent to-navy/10 blur-2xl" />
-              <div className="relative rounded-2xl border border-border bg-card p-7 shadow-float">
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-float">
+                <div className="relative">
+                  <img
+                    src={scannerFoodImg}
+                    alt="Smartphone escaneando un bulto de alimento para mascota con SafeChoice AI"
+                    width={1280}
+                    height={960}
+                    loading="lazy"
+                    className="aspect-[16/9] w-full object-cover"
+                  />
+                  <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-navy/85 px-3 py-1 text-xs font-semibold text-navy-foreground backdrop-blur">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-orange" />
+                    Escaneando empaque…
+                  </span>
+                </div>
+                <div className="p-7">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SafeChoice AI · Análisis molecular</span>
                   <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">APTO 87/100</span>
@@ -296,6 +337,7 @@ function Index() {
                 <div className="mt-5 flex items-start gap-2 rounded-lg bg-amber-50 p-3 text-xs text-amber-900">
                   <ShieldAlert className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
                   <span>Contiene <strong>BHA</strong> como conservador. Considera rotación con receta libre de antioxidantes sintéticos.</span>
+                </div>
                 </div>
               </div>
             </div>
