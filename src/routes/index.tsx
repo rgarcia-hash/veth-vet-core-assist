@@ -19,6 +19,9 @@ import {
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { DiagnosisCard } from "@/components/DiagnosisCard";
+import clinicProImg from "@/assets/clinic-pro.jpg";
+import homeFamilyImg from "@/assets/home-family.jpg";
+import scannerFoodImg from "@/assets/scanner-food.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
