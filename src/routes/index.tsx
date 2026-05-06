@@ -9,6 +9,12 @@ import {
   FileSignature,
   ShieldAlert,
   Stethoscope,
+  Home,
+  Camera,
+  HeartPulse,
+  Bell,
+  Utensils,
+  BookOpen,
 } from "lucide-react";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -203,6 +209,95 @@ function Index() {
                   <span className="font-medium">{v}</span>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* HOGAR */}
+      <section id="hogar" className="border-t border-border py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-orange">
+                <Home className="h-3.5 w-3.5" />
+                Veth Hogar
+              </span>
+              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-navy md:text-5xl">
+                Porque los veterinarios también tienen familia pet.
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Veth Hogar es el módulo personal para que cuides a tus propias mascotas con el mismo rigor clínico que aplicas en consulta: seguimiento de salud, guías y un análisis nutricional que escanea cualquier alimento comercial.
+              </p>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                {[
+                  { icon: HeartPulse, title: "Veth Score", body: "Puntaje dinámico de bienestar basado en protocolos clínicos internacionales." },
+                  { icon: BookOpen, title: "Guías de cuidado", body: "Vacunación, desparasitación y nutrición personalizada por especie y edad." },
+                  { icon: Bell, title: "Recordatorios", body: "Horarios de alimentación, dosis y citas con notificaciones inteligentes." },
+                  { icon: Utensils, title: "Círculo de cuidado", body: "Gestiona varias mascotas y comparte el seguimiento con tu familia." },
+                ].map((f) => (
+                  <div key={f.title} className="rounded-xl border border-border bg-card p-5 shadow-card">
+                    <f.icon className="h-5 w-5 text-orange" />
+                    <h3 className="mt-3 text-base font-semibold text-navy">{f.title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute -inset-6 rounded-3xl bg-gradient-to-br from-orange/15 via-transparent to-navy/10 blur-2xl" />
+              <div className="relative rounded-2xl border border-border bg-card p-7 shadow-float">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">SafeChoice AI · Análisis molecular</span>
+                  <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">APTO 87/100</span>
+                </div>
+
+                <div className="mt-5 flex items-start gap-4">
+                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-secondary">
+                    <Camera className="h-6 w-6 text-orange" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-muted-foreground">Resultado para Mika · Canino · 4a</p>
+                    <h3 className="mt-1 text-lg font-semibold text-navy">Croqueta Premium Adult Lamb &amp; Rice</h3>
+                  </div>
+                </div>
+
+                <div className="mt-6 space-y-3">
+                  {[
+                    { l: "Calidad de ingredientes", v: 88, c: "from-emerald-500 to-emerald-400" },
+                    { l: "Densidad nutricional", v: 92, c: "from-emerald-500 to-emerald-400" },
+                    { l: "Aditivos sintéticos", v: 24, c: "from-amber-500 to-amber-400" },
+                  ].map((b) => (
+                    <div key={b.l}>
+                      <div className="flex justify-between text-xs text-muted-foreground">
+                        <span>{b.l}</span>
+                        <span className="font-medium text-navy">{b.v}%</span>
+                      </div>
+                      <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-secondary">
+                        <div className={`h-full rounded-full bg-gradient-to-r ${b.c}`} style={{ width: `${b.v}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-6 grid grid-cols-2 gap-3 border-t border-border pt-5 text-sm">
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-muted-foreground">Dosis sugerida</p>
+                    <p className="mt-1 font-semibold text-navy">185 g/día</p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-muted-foreground">Horarios</p>
+                    <p className="mt-1 font-semibold text-navy">08:00 · 19:00</p>
+                  </div>
+                </div>
+
+                <div className="mt-5 flex items-start gap-2 rounded-lg bg-amber-50 p-3 text-xs text-amber-900">
+                  <ShieldAlert className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
+                  <span>Contiene <strong>BHA</strong> como conservador. Considera rotación con receta libre de antioxidantes sintéticos.</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
