@@ -108,17 +108,30 @@ function Index() {
       {/* CORE */}
       <section id="core" className="border-t border-border py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-wider text-orange">
-              El Núcleo · VET-CORE-1
-            </p>
-            <h2 className="mt-3 text-4xl font-semibold tracking-tight text-navy md:text-5xl">
-              No es un chat genérico. Es un motor especializado.
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Una arquitectura entrenada exclusivamente sobre literatura
-              veterinaria revisada, guías internacionales y casuística clínica.
-            </p>
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-wider text-orange">
+                El Núcleo · VET-CORE-1
+              </p>
+              <h2 className="mt-3 text-4xl font-semibold tracking-tight text-navy md:text-5xl">
+                No es un chat genérico. Es un motor especializado.
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Una arquitectura entrenada exclusivamente sobre literatura
+                veterinaria revisada, guías internacionales y casuística clínica.
+              </p>
+            </div>
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-navy/10 via-transparent to-orange/15 blur-2xl" />
+              <img
+                src={clinicProImg}
+                alt="Veterinaria profesional examinando a un paciente canino en consultorio"
+                width={1280}
+                height={960}
+                loading="lazy"
+                className="relative aspect-[4/3] w-full rounded-2xl object-cover shadow-float"
+              />
+            </div>
           </div>
 
           <div className="mt-14 grid gap-6 md:grid-cols-3">
