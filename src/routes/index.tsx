@@ -233,6 +233,16 @@ function Index() {
       {/* HOGAR */}
       <section id="hogar" className="border-t border-border py-24">
         <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-14 overflow-hidden rounded-3xl border border-border shadow-float">
+            <img
+              src={homeFamilyImg}
+              alt="Familia disfrutando en casa con su perro y gato"
+              width={1280}
+              height={720}
+              loading="lazy"
+              className="aspect-[16/7] w-full object-cover"
+            />
+          </div>
           <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-orange">
