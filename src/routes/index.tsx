@@ -338,6 +338,7 @@ function Index() {
                   <ShieldAlert className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
                   <span>Contiene <strong>BHA</strong> como conservador. Considera rotación con receta libre de antioxidantes sintéticos.</span>
                 </div>
+                </div>
               </div>
             </div>
           </div>
