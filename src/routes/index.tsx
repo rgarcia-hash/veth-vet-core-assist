@@ -19,6 +19,7 @@ import {
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { DiagnosisCard } from "@/components/DiagnosisCard";
+import { KnowledgeSources } from "@/components/KnowledgeSources";
 import clinicProImg from "@/assets/clinic-pro.jpg";
 import homeFamilyImg from "@/assets/home-family.jpg";
 import scannerFoodImg from "@/assets/scanner-food.jpg";
@@ -344,6 +345,8 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <KnowledgeSources />
 
       {/* FLOW */}
       <section id="flow" className="py-24">
