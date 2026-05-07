@@ -1,14 +1,12 @@
 import { Link } from "@tanstack/react-router";
+import { VethLogo } from "@/components/VethLogo";
 
 export function SiteNav() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy">
-            <span className="text-sm font-bold text-orange">V</span>
-          </div>
-          <span className="text-lg font-semibold tracking-tight text-navy">Veth</span>
+        <Link to="/" className="flex items-center" aria-label="Veth — inicio">
+          <VethLogo className="text-2xl" />
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
           <a href="/#core" className="transition-colors hover:text-navy">Núcleo</a>
