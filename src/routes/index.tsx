@@ -346,6 +346,8 @@ function Index() {
         </div>
       </section>
 
+      <KnowledgeSources />
+
       {/* FLOW */}
       <section id="flow" className="py-24">
         <div className="mx-auto max-w-7xl px-6">
