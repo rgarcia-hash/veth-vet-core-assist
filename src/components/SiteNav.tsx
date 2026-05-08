@@ -9,16 +9,16 @@ export function SiteNav() {
           <VethLogo className="text-2xl" />
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
-          <a href="/#core" className="transition-colors hover:text-navy">Núcleo</a>
-          <a href="/#sentinel" className="transition-colors hover:text-navy">Sentinel</a>
-          <a href="/#hogar" className="transition-colors hover:text-navy">Hogar</a>
-          <a href="/#fuentes" className="transition-colors hover:text-navy">Fuentes</a>
-          <a href="/#flow" className="transition-colors hover:text-navy">Flujo</a>
-          <Link to="/disclaimers" className="transition-colors hover:text-navy">Disclaimers</Link>
+          <a href="/#core" className="link-underline transition-colors hover:text-navy">Núcleo</a>
+          <a href="/#sentinel" className="link-underline transition-colors hover:text-navy">Sentinel</a>
+          <a href="/#hogar" className="link-underline transition-colors hover:text-navy">Hogar</a>
+          <a href="/#fuentes" className="link-underline transition-colors hover:text-navy">Fuentes</a>
+          <a href="/#flow" className="link-underline transition-colors hover:text-navy">Flujo</a>
+          <Link to="/disclaimers" className="link-underline transition-colors hover:text-navy">Disclaimers</Link>
         </nav>
         <a
           href="#cta"
-          className="inline-flex h-9 items-center rounded-md bg-orange px-4 text-sm font-medium text-orange-foreground shadow-sm transition-all hover:shadow-glow"
+          className="cta-glow inline-flex h-9 items-center rounded-md bg-orange px-4 text-sm font-medium text-orange-foreground shadow-sm"
         >
           Acceso Alfa
         </a>
