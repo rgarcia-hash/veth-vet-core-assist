@@ -127,18 +127,18 @@ function Index() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div className="max-w-2xl">
-              <p className="text-sm font-semibold uppercase tracking-wider text-orange">
+              <Reveal as="p" variant="rise" className="text-sm font-semibold uppercase tracking-wider text-orange">
                 El Núcleo · VET-CORE-1
-              </p>
+              </Reveal>
               <h2 className="mt-3 text-4xl font-semibold tracking-tight text-navy md:text-5xl">
-                No es un chat genérico. Es un motor especializado.
+                <KineticHeadline text="No es un chat genérico. Es un motor especializado." delayStep={45} />
               </h2>
-              <p className="mt-4 text-lg text-muted-foreground">
+              <Reveal as="p" variant="rise" delay={250} className="mt-4 text-lg text-muted-foreground">
                 Una arquitectura entrenada exclusivamente sobre literatura
                 veterinaria revisada, guías internacionales y casuística clínica.
-              </p>
+              </Reveal>
             </div>
-            <div className="relative">
+            <Reveal variant="mask" className="relative">
               <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-navy/10 via-transparent to-orange/15 blur-2xl" />
               <img
                 src={clinicProImg}
@@ -148,10 +148,10 @@ function Index() {
                 loading="lazy"
                 className="relative aspect-[4/3] w-full rounded-2xl object-cover shadow-float"
               />
-            </div>
+            </Reveal>
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
+          <StaggerGrid className="mt-14 grid gap-6 md:grid-cols-3">
             {[
               {
                 icon: ScanSearch,
@@ -171,7 +171,7 @@ function Index() {
             ].map((f) => (
               <div
                 key={f.title}
-                className="group rounded-2xl border border-border bg-card p-7 shadow-card transition-all hover:-translate-y-1 hover:border-orange/40 hover:shadow-float"
+                className="card-lift group rounded-2xl border border-border bg-card p-7 shadow-card hover:border-orange/40 hover:shadow-float"
               >
                 <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-navy text-orange transition-colors group-hover:bg-orange group-hover:text-orange-foreground">
                   <f.icon className="h-5 w-5" />
@@ -184,7 +184,7 @@ function Index() {
                 </p>
               </div>
             ))}
-          </div>
+          </StaggerGrid>
         </div>
       </section>
 
