@@ -56,31 +56,41 @@ function Index() {
         className="relative overflow-hidden"
         style={{ backgroundImage: "var(--gradient-hero)" }}
       >
-        <div className="mx-auto grid max-w-7xl gap-16 px-6 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
+        <div className="grid-bg" aria-hidden />
+        <div
+          className="pointer-events-none absolute -right-32 -top-32 h-[480px] w-[480px] rounded-full opacity-60 blur-3xl drift-slow"
+          style={{ background: "radial-gradient(circle, color-mix(in oklab, var(--orange) 28%, transparent), transparent 70%)" }}
+          aria-hidden
+        />
+        <div className="relative mx-auto grid max-w-7xl gap-16 px-6 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-orange" />
+            <Reveal as="span" variant="fade" className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-orange opacity-75 animate-ping" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-orange" />
+              </span>
               VET-CORE-1 · Alfa privada
-            </span>
+            </Reveal>
             <h1 className="mt-6 text-5xl font-semibold leading-[1.05] tracking-tight text-navy md:text-6xl lg:text-7xl">
-              La Inteligencia que{" "}
-              <span className="bg-gradient-to-r from-orange to-orange/70 bg-clip-text text-transparent">
-                Respalda
-              </span>{" "}
-              tu Juicio Clínico.
+              <KineticHeadline
+                text="La Inteligencia que Respalda tu Juicio Clínico."
+                highlight="Respalda"
+                highlightClassName="text-shimmer"
+                delayStep={70}
+              />
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            <Reveal variant="rise" delay={500} className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
               Veth es el motor de hipersinergia veterinaria (VET-CORE-1) que
               transforma signos, labs y multimedia en diagnósticos integrativos
               con soporte bibliográfico en segundos.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3" id="cta">
+            </Reveal>
+            <Reveal variant="rise" delay={650} className="mt-8 flex flex-wrap gap-3" id="cta">
               <a
                 href="mailto:hola@iaveth.com"
-                className="inline-flex h-12 items-center gap-2 rounded-lg bg-orange px-6 text-sm font-semibold text-orange-foreground shadow-sm transition-all hover:shadow-glow"
+                className="cta-glow inline-flex h-12 items-center gap-2 rounded-lg bg-orange px-6 text-sm font-semibold text-orange-foreground shadow-sm"
               >
                 Solicitar Acceso Alfa
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </a>
               <Link
                 to="/disclaimers"
@@ -88,23 +98,14 @@ function Index() {
               >
                 Ver Manifiesto Ético
               </Link>
-            </div>
-            <div className="mt-10 flex gap-8 text-xs text-muted-foreground">
-              <div>
-                <p className="text-2xl font-semibold text-navy">98.4%</p>
-                <p>Certeza HSI promedio</p>
-              </div>
-              <div>
-                <p className="text-2xl font-semibold text-navy">&lt; 8s</p>
-                <p>Dictamen integrativo</p>
-              </div>
-              <div>
-                <p className="text-2xl font-semibold text-navy">0-PII</p>
-                <p>Zero-Knowledge</p>
-              </div>
-            </div>
+            </Reveal>
+            <HeroStats />
           </div>
-          <DiagnosisCard />
+          <Reveal variant="blur" delay={300}>
+            <div className="float-slow">
+              <DiagnosisCard />
+            </div>
+          </Reveal>
         </div>
       </section>
 
