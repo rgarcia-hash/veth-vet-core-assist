@@ -101,11 +101,11 @@ export function KnowledgeSources() {
               </span>
               <p className="text-sm font-medium text-muted-foreground">Diagnóstico clínico veterinario</p>
             </div>
-            <div className="space-y-3">
+            <StaggerGrid className="space-y-3">
               {clinical.map((s) => (
                 <div
                   key={s.name}
-                  className="group flex gap-4 rounded-xl border border-border bg-card p-5 shadow-card transition-all hover:-translate-y-0.5 hover:border-orange/40 hover:shadow-float"
+                  className="card-lift group flex gap-4 rounded-xl border border-border bg-card p-5 shadow-card hover:border-orange/40 hover:shadow-float"
                 >
                   <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-secondary text-navy transition-colors group-hover:bg-orange group-hover:text-orange-foreground">
                     <s.icon className="h-5 w-5" />
@@ -119,7 +119,7 @@ export function KnowledgeSources() {
                   </div>
                 </div>
               ))}
-            </div>
+            </StaggerGrid>
           </div>
 
           {/* Veth Scan */}
