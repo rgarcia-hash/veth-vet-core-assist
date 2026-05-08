@@ -84,22 +84,35 @@ function Index() {
               transforma signos, labs y multimedia en diagnósticos integrativos
               con soporte bibliográfico en segundos.
             </Reveal>
-            <Reveal variant="rise" delay={650} className="mt-8 flex flex-wrap gap-3" id="cta">
-              <a
-                href="mailto:hola@iaveth.com"
-                className="cta-glow inline-flex h-12 items-center gap-2 rounded-lg bg-orange px-6 text-sm font-semibold text-orange-foreground shadow-sm"
-              >
-                Solicitar Acceso Alfa
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-              <Link
-                to="/disclaimers"
-                className="inline-flex h-12 items-center rounded-lg border border-border bg-card px-6 text-sm font-semibold text-navy transition-colors hover:bg-secondary"
-              >
-                Ver Manifiesto Ético
-              </Link>
+            <div id="cta">
+              <Reveal variant="rise" delay={650} className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="mailto:hola@iaveth.com"
+                  className="cta-glow group inline-flex h-12 items-center gap-2 rounded-lg bg-orange px-6 text-sm font-semibold text-orange-foreground shadow-sm"
+                >
+                  Solicitar Acceso Alfa
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </a>
+                <Link
+                  to="/disclaimers"
+                  className="inline-flex h-12 items-center rounded-lg border border-border bg-card px-6 text-sm font-semibold text-navy transition-colors hover:bg-secondary"
+                >
+                  Ver Manifiesto Ético
+                </Link>
+              </Reveal>
+            </div>
+            <Reveal variant="rise" delay={800} className="stagger is-revealed mt-10 flex gap-8 text-xs text-muted-foreground">
+              {[
+                { v: "98.4%", l: "Certeza HSI promedio" },
+                { v: "< 8s", l: "Dictamen integrativo" },
+                { v: "0-PII", l: "Zero-Knowledge" },
+              ].map((s) => (
+                <div key={s.l}>
+                  <p className="numeral text-2xl font-semibold text-navy">{s.v}</p>
+                  <p>{s.l}</p>
+                </div>
+              ))}
             </Reveal>
-            <HeroStats />
           </div>
           <Reveal variant="blur" delay={300}>
             <div className="float-slow">
