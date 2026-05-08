@@ -20,7 +20,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { DiagnosisCard } from "@/components/DiagnosisCard";
 import { KnowledgeSources } from "@/components/KnowledgeSources";
-import { Reveal, KineticHeadline } from "@/components/Reveal";
+import { Reveal, KineticHeadline, StaggerGrid } from "@/components/Reveal";
 import { useReveal } from "@/hooks/use-reveal";
 import clinicProImg from "@/assets/clinic-pro.jpg";
 import homeFamilyImg from "@/assets/home-family.jpg";
