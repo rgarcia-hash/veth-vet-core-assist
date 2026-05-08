@@ -294,10 +294,10 @@ function Index() {
               </StaggerGrid>
             </div>
 
-            <div className="relative">
+            <Reveal variant="blur" delay={150} className="relative">
               <div className="absolute -inset-6 rounded-3xl bg-gradient-to-br from-orange/15 via-transparent to-navy/10 blur-2xl" />
-              <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-float">
-                <div className="relative">
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-float float-slow">
+                <div className="relative overflow-hidden">
                   <img
                     src={scannerFoodImg}
                     alt="Smartphone escaneando un bulto de alimento para mascota con SafeChoice AI"
@@ -307,9 +307,17 @@ function Index() {
                     className="aspect-[16/9] w-full object-cover"
                   />
                   <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-navy/85 px-3 py-1 text-xs font-semibold text-navy-foreground backdrop-blur">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-orange" />
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-orange opacity-75 animate-ping" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-orange" />
+                    </span>
                     Escaneando empaque…
                   </span>
+                  <div
+                    className="pointer-events-none absolute inset-x-0 top-0 h-12 opacity-80"
+                    style={{ background: "linear-gradient(180deg, color-mix(in oklab, var(--orange) 40%, transparent), transparent)", animation: "veth-sweep 2.6s ease-in-out infinite" }}
+                    aria-hidden
+                  />
                 </div>
                 <div className="p-7">
                 <div className="flex items-center justify-between">
@@ -336,10 +344,10 @@ function Index() {
                     <div key={b.l}>
                       <div className="flex justify-between text-xs text-muted-foreground">
                         <span>{b.l}</span>
-                        <span className="font-medium text-navy">{b.v}%</span>
+                        <span className="numeral font-medium text-navy">{b.v}%</span>
                       </div>
                       <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-secondary">
-                        <div className={`h-full rounded-full bg-gradient-to-r ${b.c}`} style={{ width: `${b.v}%` }} />
+                        <div className={`bar-fill h-full rounded-full bg-gradient-to-r ${b.c}`} style={{ width: `${b.v}%` }} />
                       </div>
                     </div>
                   ))}
@@ -348,11 +356,11 @@ function Index() {
                 <div className="mt-6 grid grid-cols-2 gap-3 border-t border-border pt-5 text-sm">
                   <div>
                     <p className="text-xs uppercase tracking-wider text-muted-foreground">Dosis sugerida</p>
-                    <p className="mt-1 font-semibold text-navy">185 g/día</p>
+                    <p className="mt-1 numeral font-semibold text-navy">185 g/día</p>
                   </div>
                   <div>
                     <p className="text-xs uppercase tracking-wider text-muted-foreground">Horarios</p>
-                    <p className="mt-1 font-semibold text-navy">08:00 · 19:00</p>
+                    <p className="mt-1 numeral font-semibold text-navy">08:00 · 19:00</p>
                   </div>
                 </div>
 
@@ -362,7 +370,7 @@ function Index() {
                 </div>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
