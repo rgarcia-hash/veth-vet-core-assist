@@ -13,10 +13,20 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(
   useEffect(() => {
     const el = ref.current;
     if (!el || shown) return;
+
     if (typeof IntersectionObserver === "undefined") {
       setShown(true);
       return;
     }
+
+    // If element is already in (or above) the viewport on mount, reveal immediately.
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    if (rect.top < vh * 0.95 && rect.bottom > 0) {
+      setShown(true);
+      return;
+    }
+
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
         if (e.isIntersecting) {
@@ -27,8 +37,16 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(
       }
     }, options);
     io.observe(el);
-    return () => io.disconnect();
-  }, [shown, options]);
+
+    // Safety net: if observer never fires (e.g. SSR/hydration race), reveal after 1.2s.
+    const fallback = window.setTimeout(() => setShown(true), 1200);
+
+    return () => {
+      io.disconnect();
+      window.clearTimeout(fallback);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return { ref, shown } as const;
 }
