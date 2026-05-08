@@ -13,7 +13,7 @@ export function SiteFooter() {
         </div>
         <div className="flex gap-6 text-sm text-muted-foreground">
           <Link to="/disclaimers" className="hover:text-navy">Disclaimers</Link>
-          <a href="mailto:hello@iaveth.com" className="hover:text-navy">Contacto</a>
+          <a href="mailto:hola@iaveth.com" className="hover:text-navy">Contacto</a>
         </div>
       </div>
     </footer>
