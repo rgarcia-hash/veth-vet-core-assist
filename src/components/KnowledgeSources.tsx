@@ -60,16 +60,36 @@ export function KnowledgeSources() {
     <section id="fuentes" className="border-t border-border bg-secondary/30 py-24">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-orange">
+          <Reveal as="span" variant="fade" className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-wider text-orange">
             <Beaker className="h-3.5 w-3.5" />
             Fuentes de conocimiento
-          </span>
+          </Reveal>
           <h2 className="mt-4 text-4xl font-semibold tracking-tight text-navy md:text-5xl">
-            Alineados con los <span className="text-orange">Gold Standards</span> globales.
+            <KineticHeadline
+              text="Alineados con los Gold Standards globales."
+              highlight="Gold Standards"
+              highlightClassName="text-shimmer"
+              delayStep={45}
+            />
           </h2>
-          <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+          <Reveal as="p" variant="rise" delay={250} className="mt-5 text-lg leading-relaxed text-muted-foreground">
             El motor de Veth procesa cada caso bajo estricta adherencia a las directrices clínicas y nutricionales internacionales. No inventamos: cruzamos, verificamos y citamos.
-          </p>
+          </Reveal>
+        </div>
+
+        {/* Marquee strip of recognised standards */}
+        <div className="marquee-mask mt-12 overflow-hidden">
+          <div className="marquee gap-12 text-sm font-medium uppercase tracking-[0.18em] text-muted-foreground/70">
+            {Array.from({ length: 2 }).flatMap((_, dup) =>
+              [...clinical, ...nutritional].map((s, i) => (
+                <span key={`${dup}-${i}`} className="flex items-center gap-3 whitespace-nowrap">
+                  <s.icon className="h-4 w-4 text-orange/70" />
+                  {s.name}
+                  <span className="text-orange/40">·</span>
+                </span>
+              )),
+            )}
+          </div>
         </div>
 
         <div className="mt-16 grid gap-10 lg:grid-cols-2">
