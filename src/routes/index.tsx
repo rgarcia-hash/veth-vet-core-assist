@@ -255,43 +255,43 @@ function Index() {
       {/* HOGAR */}
       <section id="hogar" className="border-t border-border py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-14 overflow-hidden rounded-3xl border border-border shadow-float">
+          <Reveal variant="mask" className="mb-14 overflow-hidden rounded-3xl border border-border shadow-float">
             <img
               src={homeFamilyImg}
               alt="Familia disfrutando en casa con su perro y gato"
               width={1280}
               height={720}
               loading="lazy"
-              className="aspect-[16/7] w-full object-cover"
+              className="aspect-[16/7] w-full object-cover transition-transform duration-[1200ms] hover:scale-[1.03]"
             />
-          </div>
+          </Reveal>
           <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
             <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-orange">
+              <Reveal as="span" variant="fade" className="inline-flex items-center gap-2 rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-orange">
                 <Home className="h-3.5 w-3.5" />
                 Veth Hogar
-              </span>
+              </Reveal>
               <h2 className="mt-4 text-4xl font-semibold tracking-tight text-navy md:text-5xl">
-                Porque los veterinarios también tienen familia pet.
+                <KineticHeadline text="Porque los veterinarios también tienen familia pet." delayStep={50} />
               </h2>
-              <p className="mt-4 text-lg text-muted-foreground">
+              <Reveal as="p" variant="rise" delay={250} className="mt-4 text-lg text-muted-foreground">
                 Veth Hogar es el módulo personal para que cuides a tus propias mascotas con el mismo rigor clínico que aplicas en consulta: seguimiento de salud, guías y un análisis nutricional que escanea cualquier alimento comercial.
-              </p>
+              </Reveal>
 
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <StaggerGrid className="mt-8 grid gap-4 sm:grid-cols-2">
                 {[
                   { icon: HeartPulse, title: "Veth Score", body: "Puntaje dinámico de bienestar basado en protocolos clínicos internacionales." },
                   { icon: BookOpen, title: "Guías de cuidado", body: "Vacunación, desparasitación y nutrición personalizada por especie y edad." },
                   { icon: Bell, title: "Recordatorios", body: "Horarios de alimentación, dosis y citas con notificaciones inteligentes." },
                   { icon: Utensils, title: "Círculo de cuidado", body: "Gestiona varias mascotas y comparte el seguimiento con tu familia." },
                 ].map((f) => (
-                  <div key={f.title} className="rounded-xl border border-border bg-card p-5 shadow-card">
+                  <div key={f.title} className="card-lift rounded-xl border border-border bg-card p-5 shadow-card">
                     <f.icon className="h-5 w-5 text-orange" />
                     <h3 className="mt-3 text-base font-semibold text-navy">{f.title}</h3>
                     <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
                   </div>
                 ))}
-              </div>
+              </StaggerGrid>
             </div>
 
             <div className="relative">
