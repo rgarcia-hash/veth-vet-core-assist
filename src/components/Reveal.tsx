@@ -49,17 +49,7 @@ export function StaggerGrid({
     </As>
   );
 }
-  const { ref, shown } = useReveal<HTMLDivElement>();
-  return (
-    <As
-      ref={ref}
-      className={`reveal reveal--${variant} ${shown ? "is-revealed" : ""} ${className}`}
-      style={{ ...style, transitionDelay: `${delay}ms` }}
-    >
-      {children}
-    </As>
-  );
-}
+
 
 /** Splits a string into word spans for kinetic headline reveals. */
 export function KineticHeadline({
