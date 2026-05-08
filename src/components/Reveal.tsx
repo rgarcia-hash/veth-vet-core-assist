@@ -32,6 +32,35 @@ export function Reveal({
   );
 }
 
+/** Triggers `.stagger` children sequentially when in view. */
+export function StaggerGrid({
+  children,
+  className = "",
+  as: As = "div",
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: ElementType;
+}) {
+  const { ref, shown } = useReveal<HTMLDivElement>();
+  return (
+    <As ref={ref} className={`stagger ${shown ? "is-revealed" : ""} ${className}`}>
+      {children}
+    </As>
+  );
+}
+  const { ref, shown } = useReveal<HTMLDivElement>();
+  return (
+    <As
+      ref={ref}
+      className={`reveal reveal--${variant} ${shown ? "is-revealed" : ""} ${className}`}
+      style={{ ...style, transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </As>
+  );
+}
+
 /** Splits a string into word spans for kinetic headline reveals. */
 export function KineticHeadline({
   text,
