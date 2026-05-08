@@ -74,7 +74,7 @@ function Index() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3" id="cta">
               <a
-                href="mailto:alfa@iaveth.com"
+                href="mailto:hola@iaveth.com"
                 className="inline-flex h-12 items-center gap-2 rounded-lg bg-orange px-6 text-sm font-semibold text-orange-foreground shadow-sm transition-all hover:shadow-glow"
               >
                 Solicitar Acceso Alfa
@@ -410,7 +410,7 @@ function Index() {
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <a
-              href="mailto:alfa@iaveth.com"
+              href="mailto:hola@iaveth.com"
               className="inline-flex h-12 items-center gap-2 rounded-lg bg-navy px-6 text-sm font-semibold text-navy-foreground transition-opacity hover:opacity-90"
             >
               Unirme al programa Alfa

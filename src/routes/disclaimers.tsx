@@ -88,10 +88,10 @@ function Disclaimers() {
             Para consultas legales, solicitudes de auditoría o ejercicio de
             derechos sobre los datos, escríbenos a{" "}
             <a
-              href="mailto:legal@iaveth.com"
+              href="mailto:hola@iaveth.com"
               className="font-medium text-navy underline-offset-4 hover:underline"
             >
-              legal@iaveth.com
+              hola@iaveth.com
             </a>
             .
           </p>
