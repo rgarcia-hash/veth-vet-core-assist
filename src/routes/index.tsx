@@ -189,22 +189,27 @@ function Index() {
       </section>
 
       {/* SENTINEL */}
-      <section id="sentinel" className="bg-navy py-24 text-navy-foreground">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2 lg:items-center">
+      <section id="sentinel" className="relative overflow-hidden bg-navy py-24 text-navy-foreground">
+        <div
+          className="pointer-events-none absolute -left-40 top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full opacity-40 blur-3xl drift-slow"
+          style={{ background: "radial-gradient(circle, color-mix(in oklab, var(--orange) 35%, transparent), transparent 70%)" }}
+          aria-hidden
+        />
+        <div className="relative mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2 lg:items-center">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-orange">
+            <Reveal as="p" variant="rise" className="text-sm font-semibold uppercase tracking-wider text-orange">
               Protocolo Sentinel
-            </p>
+            </Reveal>
             <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
-              Más que un diagnóstico, una red de seguridad.
+              <KineticHeadline text="Más que un diagnóstico, una red de seguridad." delayStep={50} />
             </h2>
-            <p className="mt-4 text-lg text-navy-foreground/70">
+            <Reveal as="p" variant="rise" delay={250} className="mt-4 text-lg text-navy-foreground/70">
               Sentinel monitorea cada caso en busca de riesgos sistémicos,
               interacciones farmacológicas y eventos adversos potenciales.
               Cuando detecta un caso crítico, eleva la alerta antes de que el
               dictamen sea firmado.
-            </p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            </Reveal>
+            <StaggerGrid className="stagger mt-8 grid gap-4 sm:grid-cols-2">
               {[
                 "Detección de riesgos sistémicos",
                 "Interacciones farmacológicas",
@@ -216,20 +221,20 @@ function Index() {
                   <span className="text-sm text-navy-foreground/90">{t}</span>
                 </div>
               ))}
-            </div>
+            </StaggerGrid>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
+          <Reveal variant="blur" className="rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <span className="text-xs uppercase tracking-wider text-navy-foreground/60">
                 Sentinel · Live
               </span>
-              <span className="rounded-full bg-orange/20 px-3 py-1 text-xs font-semibold text-orange">
+              <span className="pulse-ring rounded-full bg-orange/20 px-3 py-1 text-xs font-semibold text-orange">
                 ALERTA · ALTA
               </span>
             </div>
             <p className="mt-6 text-2xl font-semibold leading-snug">
-              Interacción detectada: <span className="text-orange">NSAID + corticoide</span> en paciente geriátrico.
+              Interacción detectada: <span className="text-shimmer">NSAID + corticoide</span> en paciente geriátrico.
             </p>
             <div className="mt-6 space-y-3 border-t border-white/10 pt-5 text-sm">
               {[
@@ -243,7 +248,7 @@ function Index() {
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
