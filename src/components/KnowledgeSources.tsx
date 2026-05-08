@@ -1,4 +1,5 @@
 import { BookMarked, FlaskConical, Globe2, Library, ShieldCheck, Leaf, Database, Beaker } from "lucide-react";
+import { Reveal, KineticHeadline, StaggerGrid } from "@/components/Reveal";
 
 const clinical = [
   {
