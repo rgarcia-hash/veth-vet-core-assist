@@ -381,56 +381,42 @@ function Index() {
       <section id="flow" className="py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-wider text-orange">
+            <Reveal as="p" variant="rise" className="text-sm font-semibold uppercase tracking-wider text-orange">
               Flujo de Trabajo
-            </p>
+            </Reveal>
             <h2 className="mt-3 text-4xl font-semibold tracking-tight text-navy md:text-5xl">
-              Tres pasos. Un dictamen firmado.
+              <KineticHeadline text="Tres pasos. Un dictamen firmado." delayStep={55} />
             </h2>
           </div>
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
+          <StaggerGrid className="mt-14 grid gap-6 md:grid-cols-3">
             {[
-              {
-                n: "01",
-                icon: Mic,
-                title: "Captura",
-                body: "Voz en consulta o carga de archivos: imágenes, videos, audios y PDFs de laboratorio.",
-              },
-              {
-                n: "02",
-                icon: Cpu,
-                title: "Procesamiento",
-                body: "El motor Veth Core integra signos, contexto y literatura en una hipótesis multimodal.",
-              },
-              {
-                n: "03",
-                icon: FileSignature,
-                title: "Dictamen",
-                body: "Reporte firmado y exportable con códigos CIE y referencias bibliográficas trazables.",
-              },
+              { n: "01", icon: Mic, title: "Captura", body: "Voz en consulta o carga de archivos: imágenes, videos, audios y PDFs de laboratorio." },
+              { n: "02", icon: Cpu, title: "Procesamiento", body: "El motor Veth Core integra signos, contexto y literatura en una hipótesis multimodal." },
+              { n: "03", icon: FileSignature, title: "Dictamen", body: "Reporte firmado y exportable con códigos CIE y referencias bibliográficas trazables." },
             ].map((s) => (
               <div
                 key={s.n}
-                className="relative rounded-2xl border border-border bg-card p-7 shadow-card"
+                className="card-lift relative overflow-hidden rounded-2xl border border-border bg-card p-7 shadow-card hover:border-orange/40"
               >
-                <span className="text-5xl font-semibold text-orange/20">{s.n}</span>
-                <s.icon className="absolute right-7 top-7 h-6 w-6 text-orange" />
+                <span className="numeral text-6xl font-semibold leading-none text-orange/15">{s.n}</span>
+                <s.icon className="absolute right-7 top-7 h-6 w-6 text-orange transition-transform duration-500 group-hover:rotate-6" />
                 <h3 className="mt-2 text-xl font-semibold text-navy">{s.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {s.body}
                 </p>
               </div>
             ))}
-          </div>
+          </StaggerGrid>
         </div>
       </section>
 
       {/* COMMUNITY */}
-      <section className="border-t border-border bg-secondary/40 py-24">
-        <div className="mx-auto max-w-4xl px-6 text-center">
-          <Stethoscope className="mx-auto h-10 w-10 text-orange" />
+      <section className="relative overflow-hidden border-t border-border bg-secondary/40 py-24">
+        <div className="grid-bg" aria-hidden />
+        <Reveal variant="blur" className="relative mx-auto max-w-4xl px-6 text-center">
+          <Stethoscope className="mx-auto h-10 w-10 text-orange float-slow" />
           <h2 className="mt-6 text-4xl font-semibold tracking-tight text-navy md:text-5xl">
-            Diseñado por veterinarios, para veterinarios.
+            <KineticHeadline text="Diseñado por veterinarios, para veterinarios." delayStep={45} />
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
             Veth nace de la consulta real: turnos largos, casos complejos y la
@@ -440,10 +426,10 @@ function Index() {
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <a
               href="mailto:hola@iaveth.com"
-              className="inline-flex h-12 items-center gap-2 rounded-lg bg-navy px-6 text-sm font-semibold text-navy-foreground transition-opacity hover:opacity-90"
+              className="cta-glow group inline-flex h-12 items-center gap-2 rounded-lg bg-navy px-6 text-sm font-semibold text-navy-foreground"
             >
               Unirme al programa Alfa
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
             <Link
               to="/disclaimers"
@@ -452,7 +438,7 @@ function Index() {
               Leer nuestro compromiso
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <SiteFooter />
