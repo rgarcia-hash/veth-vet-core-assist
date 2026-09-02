@@ -1,0 +1,316 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: usuarios
+    // Fields:
+    //   - uid: string (required, immutable)
+    //   - email: string (required)
+    //   - role: string (required, enum: DOCTOR, PATIENT, ADMIN)
+    //   - name: string (required)
+    //   - lastName: string (required)
+    //   - license: string (optional)
+    //   - specialty: string (optional)
+    //   - verificationStatus: string (enum: NONE, PENDING, VERIFIED)
+    //
+    // Collection: patients
+    // Fields:
+    //   - ownerId: string (required, immutable, matches doctor uid)
+    //   - encryptedData: string (required)
+    //   - searchBlindIndex: list (optional)
+    //
+    // Collection: sessions
+    // Fields:
+    //   - ownerId: string (required, immutable)
+    //   - patientId: string (required)
+    //
+    // Collection: agenda
+    // Fields:
+    //   - ownerId: string (required, immutable)
+    //
+    // Collection: invitation_codes
+    // Fields:
+    //   - code: string (required)
+    //   - specialty: string (required)
+    //   - color: string (required)
+    //   - maxUses: number (required)
+    //   - currentUses: number (required)
+    //   - createdBy: string (required)
+    //   - active: boolean (required)
+    //
+    // Collection: clinical_feedback
+    // Fields:
+    //   - doctorId: string (required, matches auth.uid)
+    //   - originalInput: string (required)
+    //   - aiOutput: string (required)
+    //   - doctorCorrection: string (required)
+    //   - category: string (optional, enum: DIAGNOSIS, SUMMARY, TREATMENT, EXTRACTION)
+    //   - specialty: string (optional)
+    //   - rating: number (optional, 1-5)
+    //   - timestamp: string (required, ISO 8601)
+    //
+    // ===============================================================
+
+    // --- Helper Functions ---
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isDocOwner() {
+      return isAuthenticated() && resource.data.ownerId == request.auth.uid;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (
+          (request.auth.token.email in ["r.garcia@lynkh.com", "admin@now-lover.com", "hola@lynkh.com"]) ||
+          (exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) && 
+           get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == 'ADMIN')
+        );
+    }
+    
+    function isDoctor() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == 'DOCTOR';
+    }
+    
+    function isVerifiedDoctor(uid) {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/usuarios/$(uid)) &&
+        get(/databases/$(database)/documents/usuarios/$(uid)).data.role == 'DOCTOR' &&
+        get(/databases/$(database)/documents/usuarios/$(uid)).data.verificationStatus == 'VERIFIED';
+    }
+
+    function uidUnchanged() {
+      return !('uid' in request.resource.data) || request.resource.data.uid == request.auth.uid;
+    }
+
+    function uidNotModified() {
+      return !('uid' in request.resource.data) || !('uid' in resource.data) || request.resource.data.uid == resource.data.uid;
+    }
+
+    function ownerIdUnchanged() {
+      return request.resource.data.ownerId == request.auth.uid;
+    }
+
+    function ownerIdNotModified() {
+      return request.resource.data.ownerId == resource.data.ownerId;
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // --- Domain Validators ---
+
+    function isValidUser(data) {
+      return hasRequiredFields(['uid', 'email', 'role', 'name', 'lastName']) &&
+             data.uid is string && data.uid.size() > 0 && data.uid.size() < 100 &&
+             data.email is string && data.email.size() > 0 && data.email.size() < 150 &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.lastName is string && data.lastName.size() > 0 && data.lastName.size() < 100 &&
+             (!('invitationCode' in data) || (data.invitationCode is string && data.invitationCode.size() < 50)) &&
+             (!('assignedColor' in data) || (data.assignedColor is string && data.assignedColor.size() < 20)) &&
+             data.role in ['DOCTOR', 'PATIENT', 'ADMIN'];
+    }
+
+    function isValidPatient(data) {
+      return hasRequiredFields(['ownerId']) &&
+             data.ownerId is string && data.ownerId.size() > 0 && data.ownerId.size() < 100;
+    }
+
+    function isValidSession(data) {
+      return hasRequiredFields(['ownerId']) &&
+             data.ownerId is string && data.ownerId.size() > 0 && data.ownerId.size() < 100;
+    }
+
+    function isValidAgendaItem(data) {
+      return hasRequiredFields(['ownerId']) &&
+             data.ownerId is string && data.ownerId.size() > 0 && data.ownerId.size() < 100;
+    }
+
+    function isValidInvitationCode(data) {
+      return hasRequiredFields(['code', 'specialty', 'color', 'maxUses', 'currentUses', 'createdBy', 'active']) &&
+             data.code is string && data.code.size() > 0 && data.code.size() < 50 &&
+             data.specialty is string && data.specialty.size() > 0 && data.specialty.size() < 100 &&
+             data.color is string && data.color.size() > 0 && data.color.size() < 20 &&
+             data.maxUses is number && data.maxUses > 0 &&
+             data.currentUses is number && data.currentUses >= 0 &&
+             data.createdBy is string && data.createdBy.size() > 0 && data.createdBy.size() < 100 &&
+             data.active is bool;
+    }
+
+    function isValidInvitationCodeUpdate() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['currentUses']) &&
+             request.resource.data.currentUses == resource.data.currentUses + 1 &&
+             request.resource.data.currentUses <= resource.data.maxUses;
+    }
+
+    function isValidColleague(data) {
+      return hasRequiredFields(['name', 'lastName', 'specialty', 'license']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.lastName is string && data.lastName.size() > 0 && data.lastName.size() < 100 &&
+             data.specialty is string && data.specialty.size() > 0 && data.specialty.size() < 100 &&
+             data.license is string && data.license.size() > 0 && data.license.size() < 50 &&
+             (!('email' in data) || (data.email is string && data.email.size() < 150)) &&
+             (!('phone' in data) || (data.phone is string && data.phone.size() < 50)) &&
+             (!('id' in data) || (data.id is string && data.id.size() < 100));
+    }
+
+    function isValidInsuranceForm(data) {
+      return hasRequiredFields(['patientId', 'doctorId', 'insuranceName', 'policyNumber', 'diagnosis', 'icd10', 'onsetDate', 'evolution', 'medicalJustification', 'treatingPhysician']) &&
+             data.patientId is string && data.patientId.size() > 0 && data.patientId.size() < 100 &&
+             data.doctorId is string && data.doctorId.size() > 0 && data.doctorId.size() < 100 &&
+             data.insuranceName is string && data.insuranceName.size() > 0 && data.insuranceName.size() < 100 &&
+             data.policyNumber is string && data.policyNumber.size() > 0 && data.policyNumber.size() < 100 &&
+             data.diagnosis is string && data.diagnosis.size() > 0 && data.diagnosis.size() < 500 &&
+             data.icd10 is string && data.icd10.size() > 0 && data.icd10.size() < 20 &&
+             data.onsetDate is string && data.onsetDate.size() > 0 && data.onsetDate.size() < 50 &&
+             data.evolution is string && data.evolution in ['Aguda', 'Crónica', 'AGUDA', 'CRÓNICA', 'RECURRENTE', 'SUBAGUDA'] &&
+             data.medicalJustification is string && data.medicalJustification.size() > 0 && data.medicalJustification.size() < 2000 &&
+             data.treatingPhysician is string && data.treatingPhysician.size() > 0 && data.treatingPhysician.size() < 200 &&
+             (!('hospitalName' in data) || (data.hospitalName is string && data.hospitalName.size() < 200)) &&
+             (!('surgicalJustification' in data) || (data.surgicalJustification is string && data.surgicalJustification.size() < 2000)) &&
+             (!('assistingPhysicianId' in data) || (data.assistingPhysicianId is string && data.assistingPhysicianId.size() < 100)) &&
+             (!('assistingPhysicianName' in data) || (data.assistingPhysicianName is string && data.assistingPhysicianName.size() < 200)) &&
+             (!('anesthesiologistId' in data) || (data.anesthesiologistId is string && data.anesthesiologistId.size() < 100)) &&
+             (!('assistant1Id' in data) || (data.assistant1Id is string && data.assistant1Id.size() < 100)) &&
+             (!('assistant2Id' in data) || (data.assistant2Id is string && data.assistant2Id.size() < 100)) &&
+             (!('status' in data) || (data.status is string && data.status in ['DRAFT', 'FINAL'])) &&
+             (!('bibliography' in data) || (data.bibliography is list && data.bibliography.size() <= 20)) &&
+             (!('id' in data) || (data.id is string && data.id.size() < 100)) &&
+             (!('createdAt' in data) || data.createdAt is timestamp) &&
+             (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    function isValidClinicalFeedback(data) {
+      return hasRequiredFields(['doctorId', 'originalInput', 'aiOutput', 'doctorCorrection', 'timestamp']) &&
+             data.doctorId == request.auth.uid &&
+             data.originalInput is string && data.originalInput.size() > 0 && data.originalInput.size() < 10000 &&
+             data.aiOutput is string && data.aiOutput.size() > 0 && data.aiOutput.size() < 10000 &&
+             data.doctorCorrection is string && data.doctorCorrection.size() > 0 && data.doctorCorrection.size() < 10000 &&
+             (!('category' in data) || (data.category is string && data.category in ['DIAGNOSIS', 'SUMMARY', 'TREATMENT', 'EXTRACTION'])) &&
+             (!('specialty' in data) || (data.specialty is string && data.specialty.size() < 100)) &&
+             (!('rating' in data) || (data.rating is number && data.rating >= 1 && data.rating <= 5)) &&
+             data.timestamp is string;
+    }
+
+    // --- Rules ---
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId) || isAdmin();
+      
+      match /colleagues/{colleagueId} {
+        allow read: if isOwner(userId) || isAdmin();
+        allow create: if (isOwner(userId) || isAdmin()) && isValidColleague(request.resource.data);
+        allow update: if (isOwner(userId) || isAdmin()) && isValidColleague(request.resource.data);
+        allow delete: if isOwner(userId) || isAdmin();
+      }
+      
+      match /insuranceForms/{formId} {
+        allow read: if isOwner(userId) || isAdmin();
+        allow create: if (isOwner(userId) || isAdmin()) && isValidInsuranceForm(request.resource.data);
+        allow update: if (isOwner(userId) || isAdmin()) && isValidInsuranceForm(request.resource.data);
+        allow delete: if isOwner(userId) || isAdmin();
+      }
+    }
+
+    match /usuarios/{uid} {
+      allow read: if isAuthenticated() && (isOwner(uid) || isAdmin());
+      // Only allow users to create their own profile, and they cannot create an ADMIN role unless they are already an ADMIN.
+      allow create: if isAuthenticated() && isOwner(uid) && isValidUser(request.resource.data) && uidUnchanged() && 
+                    (request.resource.data.role != 'ADMIN' || isAdmin());
+      // Users can update their profile, but cannot change their UID or escalate their role to ADMIN.
+      allow update: if isAuthenticated() && (isOwner(uid) || isAdmin()) && isValidUser(request.resource.data) && uidNotModified() &&
+                    ((isOwner(uid) && request.resource.data.role == resource.data.role) || isAdmin());
+    }
+
+    match /patients/{patientId} {
+      allow read: if isAuthenticated() && (resource.data.ownerId == request.auth.uid || isVerifiedDoctor(request.auth.uid) || isAdmin());
+      allow create: if isAuthenticated() && isValidPatient(request.resource.data) && ownerIdUnchanged();
+      allow update: if isAuthenticated() && (resource.data.ownerId == request.auth.uid || isVerifiedDoctor(request.auth.uid) || isAdmin()) && isValidPatient(request.resource.data) && ownerIdNotModified();
+      allow delete: if isAuthenticated() && (resource.data.ownerId == request.auth.uid || isAdmin());
+    }
+    
+    match /sessions/{sessionId} {
+      allow read: if isAuthenticated() && (resource.data.ownerId == request.auth.uid || isVerifiedDoctor(request.auth.uid) || isAdmin());
+      allow create: if isAuthenticated() && isValidSession(request.resource.data) && ownerIdUnchanged();
+      allow update: if isAuthenticated() && (resource.data.ownerId == request.auth.uid || isAdmin()) && isValidSession(request.resource.data) && ownerIdNotModified();
+      allow delete: if isAuthenticated() && (resource.data.ownerId == request.auth.uid || isAdmin());
+
+      match /files/{fileId} {
+        allow read: if isAuthenticated() && (get(/databases/$(database)/documents/sessions/$(sessionId)).data.ownerId == request.auth.uid || isVerifiedDoctor(request.auth.uid) || isAdmin());
+        allow create: if isAuthenticated() && (get(/databases/$(database)/documents/sessions/$(sessionId)).data.ownerId == request.auth.uid || isAdmin());
+        allow update, delete: if isAuthenticated() && (get(/databases/$(database)/documents/sessions/$(sessionId)).data.ownerId == request.auth.uid || isAdmin());
+      }
+    }
+    
+    match /agenda/{itemId} {
+      allow read: if isAuthenticated() && (isDocOwner() || isAdmin());
+      allow create: if isAuthenticated() && isValidAgendaItem(request.resource.data) && ownerIdUnchanged();
+      allow update: if isAuthenticated() && (isDocOwner() || isAdmin()) && isValidAgendaItem(request.resource.data) && ownerIdNotModified();
+      allow delete: if isAuthenticated() && (isDocOwner() || isAdmin());
+    }
+
+    match /epidemiology_data/{dataId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated() && (isDoctor() || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
+    match /clinical_data_pool/{dataId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated() && (isDoctor() || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
+    match /clinical_feedback/{feedbackId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated() && (isDoctor() || isAdmin()) && isValidClinicalFeedback(request.resource.data);
+      allow update, delete: if isAdmin();
+    }
+
+    match /broadcasts/{broadcastId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    match /system_config/{configId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /invitation_codes/{codeId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidInvitationCode(request.resource.data);
+      allow update: if (isAdmin() && isValidInvitationCode(request.resource.data)) || (isAuthenticated() && isValidInvitationCodeUpdate());
+      allow delete: if isAdmin();
+    }
+
+    match /tutorial_steps/{stepId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    match /quick_access_tokens/{tokenId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if true;
+      allow delete: if isAdmin();
+    }
+
+    match /usage_limits/{doctorId} {
+      allow read, write: if isOwner(doctorId) || isAdmin();
+    }
+  }
+}

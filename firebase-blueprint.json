@@ -1,0 +1,114 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "Perfil de Usuario",
+      "description": "Información del perfil del usuario (médico o paciente)",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["DOCTOR", "PATIENT", "ADMIN"] },
+        "name": { "type": "string" },
+        "lastName": { "type": "string" },
+        "license": { "type": "string" },
+        "specialty": { "type": "string" },
+        "verificationStatus": { "type": "string", "enum": ["NONE", "PENDING", "VERIFIED"] },
+        "tutorialCompleted": {
+          "type": "object",
+          "properties": {
+            "welcome": { "type": "boolean" },
+            "diagnosis": { "type": "boolean" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role", "name", "lastName"]
+    },
+    "Patient": {
+      "title": "Paciente",
+      "description": "Datos del paciente (cifrados)",
+      "type": "object",
+      "properties": {
+        "ownerId": { "type": "string" },
+        "encryptedData": { "type": "string" },
+        "searchBlindIndex": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "InvitationCode": {
+      "title": "Código de Invitación",
+      "description": "Código para registro de médicos",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "specialty": { "type": "string" },
+        "color": { "type": "string" },
+        "maxUses": { "type": "integer" },
+        "currentUses": { "type": "integer" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "active": { "type": "boolean" }
+      },
+      "required": ["code", "specialty", "color", "maxUses", "currentUses", "createdBy", "active"]
+    },
+    "ClinicalFeedback": {
+      "title": "Feedback Clínico",
+      "description": "Retroalimentación de subespecialistas para entrenamiento de IA",
+      "type": "object",
+      "properties": {
+        "doctorId": { "type": "string" },
+        "originalInput": { "type": "string" },
+        "aiOutput": { "type": "string" },
+        "doctorCorrection": { "type": "string" },
+        "category": { "type": "string", "enum": ["DIAGNOSIS", "SUMMARY", "TREATMENT", "EXTRACTION"] },
+        "specialty": { "type": "string" },
+        "rating": { "type": "integer" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["doctorId", "originalInput", "aiOutput", "doctorCorrection", "timestamp"]
+    }
+  },
+  "firestore": {
+    "usuarios/{uid}": {
+      "schema": "UserProfile",
+      "description": "Colección de perfiles de usuario"
+    },
+    "patients/{patientId}": {
+      "schema": "Patient",
+      "description": "Colección de pacientes registrados por médicos"
+    },
+    "clinical_feedback/{feedbackId}": {
+      "schema": "ClinicalFeedback",
+      "description": "Feedback de expertos para mejora del modelo"
+    },
+    "tutorial_steps/{stepId}": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["welcome", "diagnosis"] },
+          "order": { "type": "integer" },
+          "targetId": { "type": "string" },
+          "title": { "type": "object", "properties": { "es": { "type": "string" }, "en": { "type": "string" } } },
+          "content": { "type": "object", "properties": { "es": { "type": "string" }, "en": { "type": "string" } } },
+          "action": { "type": "string", "description": "Optional action to trigger in UI (e.g. 'switchTab:SAFETY')" }
+        }
+      },
+      "description": "Pasos automatizados del tutorial"
+    },
+    "system_config/{configId}": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "ocrEnabled": { "type": "boolean" },
+          "multilingualEnabled": { "type": "boolean" },
+          "invitationOnlyMode": { "type": "boolean" },
+          "lastUpdated": { "type": "string", "format": "date-time" }
+        }
+      },
+      "description": "Configuración global del sistema"
+    },
+    "invitation_codes/{codeId}": {
+      "schema": "InvitationCode",
+      "description": "Códigos de invitación para registro"
+    }
+  }
+}

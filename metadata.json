@@ -1,0 +1,9 @@
+{
+  "name": "agroh",
+  "description": "sistema de soporte agrónomo",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": []
+}
